@@ -6,7 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.news_app.domain.usecase.AppEntryUsecase
+import com.example.news_app.domain.usecase.app_entry.AppEntryUsecase
 import com.example.news_app.presentation.navgraph.Route
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn

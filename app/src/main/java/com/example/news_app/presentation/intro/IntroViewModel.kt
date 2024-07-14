@@ -2,7 +2,7 @@ package com.example.news_app.presentation.intro
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.news_app.domain.usecase.AppEntryUsecase
+import com.example.news_app.domain.usecase.app_entry.AppEntryUsecase
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
