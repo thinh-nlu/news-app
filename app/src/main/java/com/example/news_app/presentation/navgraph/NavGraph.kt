@@ -16,6 +16,8 @@ import com.example.news_app.presentation.home.HomeScreen
 import com.example.news_app.presentation.home.HomeViewModel
 import com.example.news_app.presentation.intro.IntroScreen
 import com.example.news_app.presentation.intro.IntroViewModel
+import com.example.news_app.presentation.search.SearchScreen
+import com.example.news_app.presentation.search.SearchViewModel
 
 @Composable
 fun NavGraph(
@@ -31,8 +33,10 @@ fun NavGraph(
             composable(
                 route = Route.IntroScreen.route
             ) {
-                val viewModel: IntroViewModel = hiltViewModel()
-                IntroScreen(event = viewModel::onEvent)
+//                val viewModel: IntroViewModel = hiltViewModel()
+//                IntroScreen(event = viewModel::onEvent)
+                val viewModel: SearchViewModel = hiltViewModel()
+                SearchScreen(state = viewModel.state.value, event = viewModel::onEvent, )
             }
         }
         navigation(
