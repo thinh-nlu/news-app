@@ -84,7 +84,7 @@ fun IntroScreen(
                     text = buttonState.value[1],
                     onClick = {
                         scope.launch {
-                            if (pageState.currentPage == 3) {
+                            if (pageState.currentPage == 2) {
                                 event(IntroEvent.SaveAppEntry)
                             } else {
                                 pageState.animateScrollToPage(pageState.currentPage + 1)

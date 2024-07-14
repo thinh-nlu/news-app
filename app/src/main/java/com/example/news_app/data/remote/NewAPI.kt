@@ -8,8 +8,8 @@ import retrofit2.http.Query
 interface NewAPI {
     @GET("everything")
     suspend fun getNews(
+        @Query("sources") sources: String,
         @Query("page") page: Int,
-        @Query("source") sources: String,
         @Query("apiKey") apiKey: String = Constant.API_KEY
     ): NewsResponse
 }
