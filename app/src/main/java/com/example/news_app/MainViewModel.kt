@@ -19,7 +19,7 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val appEntryUsecase: AppEntryUsecase
 ): ViewModel() {
-    private val _splashCondition = mutableStateOf(false)
+    private val _splashCondition = mutableStateOf(true)
     val splashCondition: State<Boolean> = _splashCondition
 
     private val _startDestination = mutableStateOf(Route.AppStartNavigation.route)

@@ -21,15 +21,13 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    val viewModel by viewModels<MainViewModel>()
+    private val viewModel by viewModels<MainViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window,false)
         enableEdgeToEdge()
         installSplashScreen().apply {
-            setKeepOnScreenCondition{
-                viewModel.splashCondition.value
-            }
+            setKeepOnScreenCondition(condition = { viewModel.splashCondition.value })
         }
         setContent {
             NewsappTheme {
