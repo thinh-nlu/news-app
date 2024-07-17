@@ -13,6 +13,33 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import com.example.news_app.domain.model.Article
 import com.example.news_app.helper.Dimen
+import com.example.news_app.helper.Dimen.ExtraSmallPadding2
+import com.example.news_app.helper.Dimen.MediumPadding1
+
+@Composable
+fun ArticleList(
+    modifier: Modifier = Modifier,
+    articles: List<Article>,
+    onClick: (Article) -> Unit
+) {
+    if (articles.isEmpty()){
+        EmptyScreen()
+    }
+    LazyColumn(
+        modifier = modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(MediumPadding1),
+        contentPadding = PaddingValues(all = ExtraSmallPadding2)
+    ) {
+        items(
+            count = articles.size,
+        ) {
+            articles[it]?.let { article ->
+                ArticleCard(article = article, onClick = { onClick(article) })
+            }
+        }
+    }
+
+}
 
 @Composable
 fun ArticleList(

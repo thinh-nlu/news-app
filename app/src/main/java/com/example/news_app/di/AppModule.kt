@@ -13,7 +13,11 @@ import com.example.news_app.domain.repository.NewsRepository
 import com.example.news_app.domain.usecase.app_entry.AppEntryUsecase
 import com.example.news_app.domain.usecase.app_entry.ReadAppEntry
 import com.example.news_app.domain.usecase.app_entry.SaveAppEntry
+import com.example.news_app.domain.usecase.news.DeleteUsecase
+import com.example.news_app.domain.usecase.news.GetAllArticle
+import com.example.news_app.domain.usecase.news.GetArticle
 import com.example.news_app.domain.usecase.news.GetNews
+import com.example.news_app.domain.usecase.news.InsertUsecase
 import com.example.news_app.domain.usecase.news.NewsUsecase
 import com.example.news_app.domain.usecase.news.SearchNews
 import com.example.news_app.presentation.utils.Constant
@@ -56,26 +60,8 @@ object AppModule {
             .create(NewAPI::class.java)
     }
 
-    //sau khi co api thi load data vao repo
-    @Provides
-    @Singleton
-    fun provideNewsRepository(
-        newsAPI: NewAPI
-    ): NewsRepository {
-        return NewsRepositoryImpl(newsAPI)
-    }
 
-    @Provides
-    @Singleton
-    fun provideNewsUsecase(
-        newsRepository: NewsRepository
-    ): NewsUsecase {
-        return NewsUsecase(
-            getNews = GetNews(newsRepository),
-            searchNews = SearchNews(newsRepository)
-        )
-    }
-
+    //khoi tao database
     @Provides
     @Singleton
     fun provideNewsDatabase(
@@ -89,10 +75,38 @@ object AppModule {
             .fallbackToDestructiveMigration()
             .build()
     }
-
+    //access DAO
     @Provides
     @Singleton
     fun provideNewsDAO(
         newsDatabase: NewsDatabase
     ): NewsDAO = newsDatabase.newsDAO
+
+    //sau khi co api thi load data vao repo
+    @Provides
+    @Singleton
+    fun provideNewsRepository(
+        newsAPI: NewAPI,
+        newsDAO: NewsDAO
+    ): NewsRepository {
+        return NewsRepositoryImpl(newsAPI, newsDAO)
+    }
+
+    // viet usecase de su dung o viewmodel
+    @Provides
+    @Singleton
+    fun provideNewsUsecase(
+        newsRepository: NewsRepository,
+        newsDAO: NewsDAO
+    ): NewsUsecase {
+        return NewsUsecase(
+            getNews = GetNews(newsRepository),
+            searchNews = SearchNews(newsRepository),
+            getAllArticle = GetAllArticle(newsDAO = newsDAO),
+            insertArticle = InsertUsecase(newsDAO),
+            deleteArticle = DeleteUsecase(newsDAO),
+            getArticle = GetArticle(newsDAO)
+        )
+    }
+
 }
