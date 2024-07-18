@@ -22,7 +22,7 @@ fun ArticleList(
     articles: List<Article>,
     onClick: (Article) -> Unit
 ) {
-    if (articles.isEmpty()){
+    if (articles.isEmpty()) {
         EmptyScreen()
     }
     LazyColumn(
@@ -45,7 +45,7 @@ fun ArticleList(
 fun ArticleList(
     modifier: Modifier = Modifier,
     articles: LazyPagingItems<Article>,
-    onClick:(Article) -> Unit
+    onClick: (Article) -> Unit
 ) {
     val handlePagingResult = handlePagingResult(articles = articles)
 
@@ -58,10 +58,12 @@ fun ArticleList(
             items(
                 count = articles.itemCount
             ) {
-                articles[it]?.let {
-                    article ->
+                articles[it]?.let { article ->
                     if (article != null) {
-                        ArticleCard(article = article, onClick = {onClick(article)})
+                        ArticleCard(article = article, onClick = {
+                            onClick(article)
+                        }
+                        )
                     }
                 }
             }
@@ -101,8 +103,8 @@ fun handlePagingResult(
 
 @Composable
 fun ShimmerEffect() {
-    Column(verticalArrangement = Arrangement.spacedBy(Dimen.MediumPadding1)){
-        repeat(10){
+    Column(verticalArrangement = Arrangement.spacedBy(Dimen.MediumPadding1)) {
+        repeat(10) {
             ArticleCardShimmerEffect(
                 modifier = Modifier.padding(horizontal = Dimen.MediumPadding1)
             )

@@ -39,7 +39,7 @@ fun ArticleCard(
     val context = LocalContext.current
 
     Row(
-        modifier = modifier.clickable { onClick }
+        modifier = modifier.clickable { onClick?.invoke() }
     ) {
         AsyncImage(
             model = ImageRequest.Builder(context).data(article.urlToImage).build(),

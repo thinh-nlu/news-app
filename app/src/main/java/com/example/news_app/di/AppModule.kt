@@ -37,18 +37,18 @@ object AppModule {
     @Singleton
     fun provideLocalUserManager(
         application: Application
-    ): LocalUserManager = LocalUserManagerImpl(context = application)
+    ): LocalUserManager = LocalUserManagerImpl(application = application)
 
     @Provides
     @Singleton
     fun provideAppUsecase(
         localUserManager: LocalUserManager
-    ) = AppEntryUsecase(
+    ): AppEntryUsecase = AppEntryUsecase(
         readAppEntry = ReadAppEntry(localUserManager = localUserManager),
         saveAppEntry = SaveAppEntry(localUserManager = localUserManager)
     )
 
-    //chay singleton get api truoc
+    //chay singleton get api
     @Provides
     @Singleton
     fun provideApiInstance(): NewAPI {

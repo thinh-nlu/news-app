@@ -32,8 +32,7 @@ fun NavGraph(
             startDestination = Route.IntroScreen.route
         ) {
             composable(route = Route.IntroScreen.route) {
-                val viewModel: IntroViewModel = hiltViewModel()
-                IntroScreen(event = viewModel::onEvent)
+                NewsNavigatorScreen()
             }
         }
 

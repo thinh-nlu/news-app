@@ -56,9 +56,15 @@ fun NewsNavigatorScreen(
         else -> 0
     }
 
-    Scaffold(
-        modifier = Modifier.fillMaxSize(),
-        bottomBar = {
+    //Hide the bottom navigation when the user is in the details screen
+    val isBottomBarVisible = remember(key1 = backStackState) {
+        backStackState?.destination?.route == Route.HomeScreen.route ||
+                backStackState?.destination?.route == Route.SearchScreen.route ||
+                backStackState?.destination?.route == Route.BookmarkScreen.route
+    }
+
+    Scaffold(modifier = Modifier.fillMaxSize(), bottomBar = {
+        if (isBottomBarVisible) {
             NewsBottomNavigator(
                 items = bottomNavigationItems,
                 selected = selectedItem,
@@ -82,7 +88,7 @@ fun NewsNavigatorScreen(
                 }
             )
         }
-    ) {
+    }) {
         val bottomPadding = it.calculateBottomPadding()
         NavHost(
             navController = navController,
@@ -92,16 +98,26 @@ fun NewsNavigatorScreen(
             composable(route = Route.HomeScreen.route) {
                 val viewModel: HomeViewModel = hiltViewModel()
                 val articles = viewModel.news.collectAsLazyPagingItems()
-                HomeScreen(articles = articles, navigateToSearch = {
-                    navigateToTab(navController = navController, route = Route.SearchScreen.route)
-                }, navigateToDetail = { article ->
-                    navigateToDetails(navController, article)
-                })
-
+                HomeScreen(
+                    articles = articles,
+                    navigateToSearch = {
+                        navigateToTab(
+                            navController = navController,
+                            route = Route.SearchScreen.route
+                        )
+                    },
+                    navigateToDetail = { article ->
+                        navigateToDetails(
+                            navController = navController,
+                            article = article
+                        )
+                    }
+                )
             }
             composable(route = Route.SearchScreen.route) {
                 val viewModel: SearchViewModel = hiltViewModel()
                 val state = viewModel.state.value
+                OnBackClickStateSaver(navController = navController)
                 SearchScreen(
                     state = state,
                     event = viewModel::onEvent,
@@ -110,7 +126,8 @@ fun NewsNavigatorScreen(
                             navController = navController,
                             article = article
                         )
-                    })
+                    }
+                )
             }
             composable(route = Route.DetailScreen.route) {
                 val viewModel: DetailViewModel = hiltViewModel()
@@ -119,11 +136,11 @@ fun NewsNavigatorScreen(
                         DetailScreen(
                             article = article,
                             event = viewModel::onEvent,
-                            sideEffect = viewModel.sideEffect,
-                            navigateUp = {
-                                navController.navigateUp()
-                            })
+                            navigateUp = { navController.navigateUp() },
+                            sideEffect = viewModel.sideEffect
+                        )
                     }
+
             }
             composable(route = Route.BookmarkScreen.route) {
                 val viewModel: BookmarkViewModel = hiltViewModel()
@@ -131,9 +148,11 @@ fun NewsNavigatorScreen(
                 OnBackClickStateSaver(navController = navController)
                 BookmarkScreen(
                     state = state,
-                    navigateToDetails = {
-                        article ->
-                        navigateToDetails(navController = navController, article)
+                    navigateToDetails = { article ->
+                        navigateToDetails(
+                            navController = navController,
+                            article = article
+                        )
                     }
                 )
             }

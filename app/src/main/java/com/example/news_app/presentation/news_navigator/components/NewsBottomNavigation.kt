@@ -38,7 +38,7 @@ fun NewsBottomNavigator(
         items.forEachIndexed { index, item ->
             NavigationBarItem(
                 selected = index == selected,
-                onClick = { onItemClick },
+                onClick = { onItemClick(index) },
                 icon = {
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally

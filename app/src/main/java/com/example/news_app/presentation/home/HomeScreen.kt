@@ -80,9 +80,8 @@ fun HomeScreen(
                 readOnly = true,
                 onValueChange = {},
                 onSearch = {},
-                onClick = {
-                    navigateToSearch
-                }
+                onClick = navigateToSearch
+
             )
 
             Spacer(modifier = Modifier.height(MediumPadding1))
@@ -101,9 +100,7 @@ fun HomeScreen(
             ArticleList(
                 modifier = Modifier.padding(horizontal = MediumPadding1),
                 articles = articles,
-                onClick = {
-                    navigateToDetail(it)
-                }
+                onClick =  navigateToDetail
             )
         }
     }
